@@ -7,14 +7,14 @@
    ==================================================================
 */
 /**
- * Generates the light/dark banner and process SVGs of the org profile into
- * profile/assets/. Usage: node scripts/build-assets.mjs
+ * Generates the light/dark banner and process SVGs of the profile into
+ * assets/. Usage: node scripts/build-assets.mjs
  */
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const out = join(dirname(fileURLToPath(import.meta.url)), '..', 'profile', 'assets');
+const out = join(dirname(fileURLToPath(import.meta.url)), '..', 'assets');
 mkdirSync(out, { recursive: true });
 
 const SANS = "'Inter','Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif";

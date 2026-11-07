@@ -7,7 +7,7 @@
    ==================================================================
 */
 /**
- * Checks profile/README.md before pushing: image URLs map to files in this
+ * Checks the profile README.md before pushing: image URLs map to files in this
  * repo, SVGs are well formed and self-contained, links answer, house style holds.
  * Usage: node scripts/check.mjs [--offline] [--preview]
  *   --offline  skip the network link checks
@@ -20,9 +20,9 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const README = join(ROOT, 'profile', 'README.md');
-const ASSETS = join(ROOT, 'profile', 'assets');
-const RAW = 'https://raw.githubusercontent.com/halyt-team/.github/main/';
+const README = join(ROOT, 'README.md');
+const ASSETS = join(ROOT, 'assets');
+const RAW = 'https://raw.githubusercontent.com/halyt-team/halyt-team/main/';
 const SOFT_HOSTS = ['facebook.com', 'instagram.com', 'tiktok.com', 'youtube.com'];
 const EDGE = 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe';
 
@@ -53,7 +53,7 @@ function xmlProblem(svg) {
 function checkAssetUrls(urls) {
   for (const url of urls.filter((u) => u.startsWith('https://raw.githubusercontent.com/'))) {
     if (!url.startsWith(RAW)) {
-      errors.push(`image URL is not on halyt-team/.github@main: ${url}`);
+      errors.push(`image URL is not on halyt-team/halyt-team@main: ${url}`);
       continue;
     }
     const local = join(ROOT, url.slice(RAW.length));
@@ -62,7 +62,7 @@ function checkAssetUrls(urls) {
   }
 }
 
-/** Check every SVG in profile/assets is well formed and loads nothing from outside. */
+/** Check every SVG in assets/ is well formed and loads nothing from outside. */
 function checkSvgs() {
   for (const name of readdirSync(ASSETS).filter((f) => f.endsWith('.svg'))) {
     const svg = readFileSync(join(ASSETS, name), 'utf8');
@@ -134,7 +134,7 @@ async function preview(text) {
   const out = join(ROOT, 'preview');
   mkdirSync(out, { recursive: true });
   for (const theme of ['light', 'dark']) {
-    const body = html.replace(/https:\/\/raw\.githubusercontent\.com\/halyt-team\/\.github\/main\/profile\/assets\/([\w-]+)-(light|dark)\.svg/g,
+    const body = html.replace(/https:\/\/raw\.githubusercontent\.com\/halyt-team\/halyt-team\/main\/assets\/([\w-]+)-(light|dark)\.svg/g,
       (_, name) => dataUri(`${name}-${theme}.svg`));
     const bg = theme === 'dark' ? '#0d1117' : '#ffffff';
     const page = `<!doctype html><html><head><meta charset="utf-8"><title>Profile preview (${theme})</title>
